@@ -1,12 +1,7 @@
+import java.util.Arrays;
+
 public class DeluxeRoom extends Room {
-    private boolean hasJacuzzi;
-
-    public DeluxeRoom(double price, boolean hasJacuzzi) {
-        super("Deluxe", price);
-        this.hasJacuzzi = hasJacuzzi;
-    }
-
-    public boolean hasJacuzzi() {
-        return hasJacuzzi;
+    public DeluxeRoom() {
+        super("Deluxe", 250.0, true, Arrays.asList("Fitness Hall", "Sauna", "Massage"));
     }
 }

@@ -1,31 +1,25 @@
-import java.util.ArrayList;
-import java.util.List;
-
 public class Booking {
-    private List<Room> rooms;
+    private Room room;
+    private String customerName;
+    private String customerSurname;
+    private String customerEmail;
+    private String paymentMethod;
 
-    public Booking() {
-        rooms = new ArrayList<>();
-        initializeRooms();
-    }
-
-    private void initializeRooms() {
-        rooms.add(new Room("Single", 100.00));
-        rooms.add(new Room("Double", 150.00));
-        rooms.add(new Room("Suite", 250.00));
-        rooms.add(new DeluxeRoom(300.00, true));
-    }
-
-    public Room findAvailableRoom(String roomType) {
-        for (Room room : rooms) {
-            if (room.getRoomType().equalsIgnoreCase(roomType) && room.isAvailable()) {
-                return room;
-            }
-        }
-        return null;
-    }
-
-    public void bookRoom(Room room) {
+    public Booking(Room room, String customerName, String customerSurname, String customerEmail, String paymentMethod) {
+        this.room = room;
+        this.customerName = customerName;
+        this.customerSurname = customerSurname;
+        this.customerEmail = customerEmail;
+        this.paymentMethod = paymentMethod;
         room.bookRoom();
+    }
+
+    public void displayBookingDetails() {
+        System.out.println("Room booked: " + room.getType());
+        System.out.println("Price: $" + room.getPrice());
+        System.out.println("Customer: " + customerName + " " + customerSurname);
+        System.out.println("Email: " + customerEmail);
+        System.out.println("Payment Method: " + paymentMethod);
+        System.out.println("Amenities: " + room.getAmenities());
     }
 }

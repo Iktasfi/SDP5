@@ -1,24 +1,24 @@
 public class HotelBookingFacade {
+    private RoomCatalog roomCatalog;
     private PaymentProcessor paymentProcessor;
-    private NotificationService notificationService;
-    private Booking booking;
 
     public HotelBookingFacade() {
+        roomCatalog = new RoomCatalog();
         paymentProcessor = new PaymentProcessor();
-        notificationService = new NotificationService();
-        booking = new Booking();
     }
 
-    public void bookHotel(String customerEmail, String roomType, String paymentMethod) {
-        Room room = booking.findAvailableRoom(roomType);
+    public void bookRoom(String type, String name, String surname, String email, String paymentMethod) {
+        Room room = roomCatalog.findAvailableRoom(type);
         if (room != null) {
-            double amount = room.getPrice();
-            booking.bookRoom(room);
-            paymentProcessor.processPayment(paymentMethod, amount);
-            notificationService.sendBookingConfirmation(customerEmail);
-            System.out.println("Hotel booking completed successfully for " + room.getRoomType());
+            if (paymentProcessor.processPayment(paymentMethod, room.getPrice())) {
+                Booking booking = new Booking(room, name, surname, email, paymentMethod);
+                booking.displayBookingDetails();
+                System.out.println("Booking confirmed!");
+            } else {
+                System.out.println("Payment failed.");
+            }
         } else {
-            System.out.println("Sorry, the requested room type is not available.");
+            System.out.println("Room of type " + type + " is not available.");
         }
     }
 }
